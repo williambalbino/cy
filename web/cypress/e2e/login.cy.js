@@ -28,7 +28,7 @@ describe('Login', () => {
       .should('be.visible')
   })
 
-  it.only('não deve logar com email não cadastrado', () => {
+  it('não deve logar com email não cadastrado', () => {
     cy.visit('http://localhost:3000')
 
     cy.get('#email').type('teste@webdojo.com')
@@ -37,6 +37,28 @@ describe('Login', () => {
     cy.contains('button', 'Entrar').click()
 
     cy.contains('Acesso negado! Tente novamente.')
+      .should('be.visible')
+  })
+
+  it('não deve logar com email não preenchido', () => {
+    cy.visit('http://localhost:3000')
+
+    cy.get('#password').type('katana123')
+
+    cy.contains('button', 'Entrar').click()
+
+    cy.contains('Ei, não esqueça de digitar seu email!')
+      .should('be.visible')
+  })
+
+  it('não deve logar com senha não preenchida', () => {
+    cy.visit('http://localhost:3000')
+
+    cy.get('#email').type('teste@webdojo.com')
+
+    cy.contains('button', 'Entrar').click()
+
+    cy.contains('Você precisa de uma senha para entrar!')
       .should('be.visible')
   })
 })
